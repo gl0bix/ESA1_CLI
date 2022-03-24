@@ -12,28 +12,21 @@ Usage:
 Options:
   -h --help             Show this screen.
   --filename=<name>     Name of recording [default: record.mp3].
-  --duration=<time>     Duration of recording in seconds [default: 30].
-  --blocksize=<size>   Block size for read/write in bytes [default: 300].
+  --duration=<time>     Duration of recording in seconds [default: 10].
+  --blocksize=<size>   Block size for read/write in bytes [default: 1024].
   -l --list             List all recordings.
+  
+Info:
+  examples for internet radio stations: https://wiki.ubuntuusers.de/Internetradio/Stationen/
 """
 
-import datetime as dt
 import os
-import urllib.request as rq
-
 from os import listdir
 from os.path import isfile, join
+
 from docopt import docopt
 
-
-def record(url='http://radios.rtbf.be/musiq3-128.mp3', filename='record.mp3', blocksize=64, duration=30):
-    r = rq.urlopen(url)
-    start = dt.datetime.now()
-
-    with open(filename, 'wb') as f:
-        while (dt.datetime.now() - start).seconds < duration:
-            f.write(r.read(blocksize))
-
+from record import record
 
 if __name__ == '__main__':
     args = docopt(__doc__, version='cli_recorder 0.1')
